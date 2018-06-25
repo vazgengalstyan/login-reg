@@ -1,0 +1,1 @@
+angular.module('meanApp', ['ngRoute', 'appRoutes', 'angularjs.tree', 'ui.tree', 'RegisterCtrl', 'LoginCtrl', 'UserListCtrl', 'ChengePasswordCtrl']);

@@ -1,0 +1,53 @@
+<div ng-show="!loading">
+    <form class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" style="margin-top: 50px" placeholder="Email address" required autofocus ng-model="loginModel.email">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" style="margin-top: 30px" placeholder="Password" required ng-model="loginModel.password">
+        <div class="checkbox">
+            <label><input type="checkbox" ng-model="rememberMe"> Remember me</label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" style="margin-top: 30px" ng-click="login()">Sign in</button><br>
+        <div class="p-3 mb-2 bg-danger text-white" style="margin-top: 10px; height: 35px; border-radius: 8px; text-align: center; padding-top: 6px" ng-if="loginErr">{{loginErr}}</div>
+        <div class="p-3 mb-2 bg-success text-white" style="margin-top: 10px; height: 35px; border-radius: 8px; text-align: center; padding-top: 3px" ng-if="loginSuccess">{{loginSuccess}}</div>
+        <a style="float: left; cursor: pointer" ng-click="showResetPasswordDiv = !showResetPasswordDiv">FORGOT PASSWORD</a>
+        <a style="float: right" href="/register">REGISTRATION</a>
+    </form>
+
+    <div class="container" style="clear: both; margin-bottom: 50px;" ng-show="showResetPasswordDiv">
+        <div id="passwordreset" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Password Reset</div>
+                </div>
+                <div class="panel-body" >
+                    <form id="signupform" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Registered Email</label>
+                            <div class="col-md-9">
+                                <input type="email" class="form-control" name="email" placeholder="Enter your email address that you used to register" ng-model="resetPasswordEmail">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Button -->
+                            <div class="col-md-offset-3 col-md-9">
+                                <button id="btn-signup" type="button" class="btn btn-warning" ng-click="resetPassword()">Send</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                    We'll send you an email with a link to reset your password.
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
