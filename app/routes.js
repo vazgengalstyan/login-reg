@@ -15,6 +15,66 @@ var transporter = nodemailer.createTransport({
 });
 
 module.exports = function (app) {
+	
+	app.post('/api/user-registration', function (req, res) {
+
+        var myData = req.body;
+        var mailSql = "SELECT id FROM users WHERE users.login = '" + myData.email + "'";
+
+        con.query(mailSql, function (err, result) {
+
+            if (err) {
+
+                res.send(err);
+
+            } else if (result[0]) {
+
+                res.send('This email is alrady in use');
+
+            } else {
+
+                myData.verify_token = randomstring.generate(16);
+
+                bcrypt.hash(myData.password, saltRounds, function (err, hash) {
+
+                    var sql = "INSERT INTO users (login,password,name,surname,b_date,verify_token,is_verifyed) VALUES ('" + myData.email + "','" + hash + "','" + myData.firstname + "','" + myData.lastname + "','" + myData.b_date + "','" + myData.verify_token + "','" + 0 + "')";
+
+                    var mailOptions = {
+                        from: 'galstyanvazgen1992@gmail.com',
+                        to: myData.email,
+                        subject: 'Sending Email for registration',
+                        text: 'http://' + ip.address() + ':8080/api/verify/' + myData.verify_token
+                    };
+
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Email sent: ' + info.response);
+                        }
+                    });
+
+                    con.query(sql, function (err, result) {
+
+                        if (err) {
+
+                            res.send(err);
+
+                        } else {
+
+                            myData.password = '';
+                            res.json({success: true});
+
+                        }
+                    });
+
+                });
+
+            }
+
+        });
+
+    });
 
     app.get('/api/verify/:verify_token', function (req, res) {
 
@@ -32,40 +92,7 @@ module.exports = function (app) {
                 console.log(result.affectedRows + " record(s) updated");
 
             }
-        });
-
-    });
-
-    app.get('/api/authorization_with_session', function (req, res) {
-
-        var session_id = req.cookies.session_id;
-        var sql = "SELECT id FROM sessions WHERE sessions.session_id = '" + session_id + "'";
-
-        con.query(sql, function (err, result) {
-
-            if (result[0] && result[0].id) {
-
-                res.json({success: true});
-
-            } else {
-
-                res.json({success: false});
-
-            }
-
-        });
-
-    });
-
-    app.get('/api/logout', function (req, res) {
-
-        var session_id = req.cookies.session_id;
-        var sql = "DELETE FROM sessions WHERE session_id = '" + session_id + "'";
-
-        con.query(sql, function (err, result) {
-
-            res.json({logout: true});
-
+			
         });
 
     });
@@ -145,62 +172,36 @@ module.exports = function (app) {
         });
 
     });
+	
+	app.get('/api/authorization_with_session', function (req, res) {
 
-    app.post('/api/user-registration', function (req, res) {
+        var session_id = req.cookies.session_id;
+        var sql = "SELECT id FROM sessions WHERE sessions.session_id = '" + session_id + "'";
 
-        var myData = req.body;
-        var mailSql = "SELECT id FROM users WHERE users.login = '" + myData.email + "'";
+        con.query(sql, function (err, result) {
 
-        con.query(mailSql, function (err, result) {
+            if (result[0] && result[0].id) {
 
-            if (err) {
-
-                res.send(err);
-
-            } else if (result[0]) {
-
-                res.send('This email is alrady in use');
+                res.json({success: true});
 
             } else {
 
-                myData.verify_token = randomstring.generate(16);
-
-                bcrypt.hash(myData.password, saltRounds, function (err, hash) {
-
-                    var sql = "INSERT INTO users (login,password,name,surname,b_date,verify_token,is_verifyed) VALUES ('" + myData.email + "','" + hash + "','" + myData.firstname + "','" + myData.lastname + "','" + myData.b_date + "','" + myData.verify_token + "','" + 0 + "')";
-
-                    var mailOptions = {
-                        from: 'galstyanvazgen1992@gmail.com',
-                        to: myData.email,
-                        subject: 'Sending Email for registration',
-                        text: 'http://' + ip.address() + ':8080/api/verify/' + myData.verify_token
-                    };
-
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log('Email sent: ' + info.response);
-                        }
-                    });
-
-                    con.query(sql, function (err, result) {
-
-                        if (err) {
-
-                            res.send(err);
-
-                        } else {
-
-                            myData.password = '';
-                            res.json({success: true});
-
-                        }
-                    });
-
-                });
+                res.json({success: false});
 
             }
+
+        });
+
+    });
+
+    app.get('/api/logout', function (req, res) {
+
+        var session_id = req.cookies.session_id;
+        var sql = "DELETE FROM sessions WHERE session_id = '" + session_id + "'";
+
+        con.query(sql, function (err, result) {
+
+            res.json({logout: true});
 
         });
 
