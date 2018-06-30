@@ -15,8 +15,8 @@ var transporter = nodemailer.createTransport({
 });
 
 module.exports = function (app) {
-	
-	app.post('/api/user-registration', function (req, res) {
+
+    app.post('/api/user-registration', function (req, res) {
 
         var myData = req.body;
         var mailSql = "SELECT id FROM users WHERE users.login = '" + myData.email + "'";
@@ -92,7 +92,7 @@ module.exports = function (app) {
                 console.log(result.affectedRows + " record(s) updated");
 
             }
-			
+
         });
 
     });
@@ -149,11 +149,38 @@ module.exports = function (app) {
 
                                         var sessionSql = "INSERT INTO sessions(session_id,user_id) VALUES ('" + req.sessionID + "','" + user_id + "')";
                                         con.query(sessionSql, function (err, result) {
-                                        });
 
-                                        res.json({
-                                            success: true,
-                                            session_id: req.sessionID
+                                            if (err) {
+
+                                                res.send('error');
+
+                                            } else {
+
+                                                var user_token = randomstring.generate(16);
+
+                                                var tokenSql = "UPDATE users SET user_token = '" + user_token + "' WHERE login = '" + myData.email + "'";
+
+                                                con.query(tokenSql, function (err, result) {
+
+                                                    if (err) {
+
+                                                        res.send('error');
+
+                                                    } else {
+
+                                                        res.json({
+                                                            success: true,
+                                                            session_id: req.sessionID,
+                                                            user_token: user_token
+                                                        });
+
+                                                    }
+
+                                                });
+
+                                            }
+
+
                                         });
 
                                     }
@@ -172,8 +199,8 @@ module.exports = function (app) {
         });
 
     });
-	
-	app.get('/api/authorization_with_session', function (req, res) {
+
+    app.get('/api/authorization_with_session', function (req, res) {
 
         var session_id = req.cookies.session_id;
         var sql = "SELECT id FROM sessions WHERE sessions.session_id = '" + session_id + "'";
@@ -197,11 +224,34 @@ module.exports = function (app) {
     app.get('/api/logout', function (req, res) {
 
         var session_id = req.cookies.session_id;
+        var user_token = req.cookies.user_token;
         var sql = "DELETE FROM sessions WHERE session_id = '" + session_id + "'";
 
         con.query(sql, function (err, result) {
 
-            res.json({logout: true});
+            if (err) {
+
+                res.send('error');
+
+            } else {
+
+                var sqlUserToken = "UPDATE users SET user_token = '" + null + "' WHERE user_token = '" + user_token + "'";
+
+                con.query(sqlUserToken, function (err, result) {
+
+                    if (err) {
+
+                        res.send('error');
+
+                    } else {
+
+                        res.json({logout: true});
+
+                    }
+
+                });
+
+            }
 
         });
 

@@ -42,7 +42,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                 }, 3000);
 
-                return
+                return;
             }
 
         }
@@ -66,10 +66,12 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                     var date = new Date(new Date().getTime() + 604800 * 1000);
                     document.cookie = "session_id=" + res.data.session_id + "; path=/; expires=" + date.toUTCString();
+                    document.cookie = "user_token=" + res.data.user_token + "; path=/; expires=" + date.toUTCString();
 
                 } else {
 
-                    document.cookie = "session_id=" + res.data.session_id
+                    document.cookie = "session_id=" + res.data.session_id;
+                    document.cookie = "user_token=" + res.data.user_token;
 
                 }
 
@@ -81,7 +83,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                     $scope.loginErr = '';
 
-                }, 3000)
+                }, 3000);
             }
 
         }, function () {
@@ -99,7 +101,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                 $scope.loginErr = '';
 
-            }, 3000)
+            }, 3000);
 
         } else {
 
@@ -122,7 +124,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                         $scope.loginSuccess = '';
 
-                    }, 3000)
+                    }, 3000);
 
                 } else {
 
@@ -132,7 +134,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
                         $scope.loginErr = '';
 
-                    }, 3000)
+                    }, 3000);
 
                 }
 
@@ -141,6 +143,6 @@ angular.module('LoginCtrl', []).controller('LoginController', function ($scope, 
 
         }
 
-    }
+    };
 
 });
