@@ -69,6 +69,6 @@ angular.module('ChengePasswordCtrl', []).controller('ChengePasswordController', 
         }, function () {
         });
 
-    }
+    };
 
 });

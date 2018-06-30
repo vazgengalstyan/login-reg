@@ -287,7 +287,7 @@ module.exports = function (app) {
 
             } else {
 
-                res.send('Invalid email.')
+                res.send('Invalid email.');
 
             }
 
@@ -335,7 +335,7 @@ module.exports = function (app) {
 
                 } else {
 
-                    res.send('Error.')
+                    res.send('Error.');
 
                 }
 

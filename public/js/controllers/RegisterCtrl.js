@@ -44,7 +44,7 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
 
                 }, 3000);
 
-                return
+                return;
             }
 
         }
@@ -59,7 +59,7 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
 
             }, 3000);
 
-            return
+            return;
 
         }
 
@@ -97,7 +97,9 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
             }
 
         }, function () {
+
         });
-    }
+
+    };
 
 });

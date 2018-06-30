@@ -36,6 +36,14 @@ angular.module('UserListCtrl', []).controller('UserLisController', function ($sc
 
             });
 
-    }
+    };
+
+    $http.get('/api/user-me')
+        .then(function (res) {
+
+            console.log(res.data);
+
+        });
+
 
 });
