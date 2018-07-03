@@ -1,5 +1,5 @@
 var fs = require('file-system');
-var con = require('../server');
+var con = require('../server').con;
 var randomstring = require("randomstring");
 var bcrypt = require('bcrypt');
 const saltRounds = 10;

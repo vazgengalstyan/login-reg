@@ -28,7 +28,7 @@ var db = require('./config/db');
 // set our port
 var port = process.env.PORT || 8080;
 var con = mysql.createConnection(db);
-module.exports = con;
+exports.con = con;
 // connect to our mongoDB database
 // (uncomment after you enter in your own credentials in config/db.js)
 

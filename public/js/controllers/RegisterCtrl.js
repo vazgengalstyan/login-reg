@@ -21,6 +21,10 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
 
     }
 
+    var script = document.createElement("script");
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    document.head.appendChild(script);
+
     $scope.model = {
         firstname: '',
         lastname: '',
@@ -31,6 +35,8 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
     };
 
     $scope.registration = function () {
+
+        var recaptcha = document.getElementById("g-recaptcha-response").value;
 
         for (var i in $scope.model) {
 
@@ -52,6 +58,20 @@ angular.module('RegisterCtrl', []).controller('RegisterController', function ($s
         if ($scope.model.password != $scope.model.confirmPassword) {
 
             $scope.regDanger = 'Confirm password not equal password.';
+
+            $timeout(function () {
+
+                $scope.regDanger = '';
+
+            }, 3000);
+
+            return;
+
+        }
+
+        if (!recaptcha) {
+
+            $scope.regDanger = 'Please check the recaptcha.';
 
             $timeout(function () {
 

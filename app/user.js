@@ -1,4 +1,4 @@
-var con = require('../server');
+var con = require('../server').con;
 
 module.exports = function (app) {
 
