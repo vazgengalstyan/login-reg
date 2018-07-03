@@ -32,7 +32,7 @@ app.use(session({
     cookie: { secure: true }
 }));
 
-// usecookie parser
+// use cookie parser
 app.use(cookieParser());
 
 // get all data/stuff of the body (POST) parameters
