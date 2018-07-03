@@ -5,11 +5,11 @@ var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
-var mysql = require('mysql');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var mysql          = require('mysql');
+var session        = require('express-session');
+var cookieParser   = require('cookie-parser');
+var http           = require('http').Server(app);
+var io             = require('socket.io')(http);
 
 // configuration ===========================================
 
@@ -20,7 +20,6 @@ var db = require('./config/db');
 var port = process.env.PORT || 8080;
 
 // connect to our mysql database
-
 var con = mysql.createConnection(db);
 exports.con = con;
 
@@ -53,6 +52,7 @@ app.use(express.static(__dirname + '/public'));
 
 // routes ==================================================
 require('./app/main')(app); // configure our routes
+
 // start app ===============================================
 // startup our app at http://localhost:8080
 app.listen(port);

@@ -1,10 +1,10 @@
-var fs = require('file-system');
-var con = require('../server').con;
-var randomstring = require("randomstring");
-var bcrypt = require('bcrypt');
-const saltRounds = 10;
-var nodemailer = require('nodemailer');
-var ip = require('ip');
+var fs              = require('file-system');
+var con             = require('../server').con;
+var randomstring    = require("randomstring");
+var bcrypt          = require('bcrypt');
+const saltRounds    = 10;
+var nodemailer      = require('nodemailer');
+var ip              = require('ip');
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',

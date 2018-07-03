@@ -1,4 +1,4 @@
-angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
     $routeProvider
     // home page
@@ -14,7 +14,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl: 'views/user_list.html',
             controller: 'UserLisController'
         })
-        .when('/reset_password/:change_password_token',{
+        .when('/reset_password/:change_password_token', {
             templateUrl: 'views/chenge_password.html',
             controller: 'ChengePasswordController'
         });

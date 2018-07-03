@@ -13,7 +13,7 @@ angular.module('UserListCtrl', []).controller('UserLisController', function ($sc
 
                     $window.location.href = '/';
 
-                }else {
+                } else {
 
                     $scope.loading = true;
 
