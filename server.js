@@ -11,15 +11,6 @@ var cookieParser = require('cookie-parser');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.use(session({
-    secret: '5555-4D44-WppQ38S',
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}));
-
-app.use(cookieParser());
-
 // configuration ===========================================
 
 // config files
@@ -27,11 +18,22 @@ var db = require('./config/db');
 
 // set our port
 var port = process.env.PORT || 8080;
+
+// connect to our mysql database
+
 var con = mysql.createConnection(db);
 exports.con = con;
-// connect to our mongoDB database
-// (uncomment after you enter in your own credentials in config/db.js)
 
+// use session
+app.use(session({
+    secret: '5555-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+
+// usecookie parser
+app.use(cookieParser());
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
